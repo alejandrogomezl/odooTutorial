@@ -1,6 +1,7 @@
 from odoo import fields, models, api
 from datetime import date, timedelta
-from odoo.exceptions import UserError
+from odoo.exceptions import UserError, ValidationError
+from odoo.tools.float_utils import float_compare, float_is_zero
 
 class Property(models.Model):
     _name = "estate.property"
@@ -43,12 +44,10 @@ class Property(models.Model):
     best_price = fields.Float(string="Best Offer", compute="_compute_best_price", store=True)
 
     _sql_constraints = [
-        ('name_description_check',
-         'CHECK(name != description)',
-         'The name of the property should not be the description'),
-        ('price_check',
-         'CHECK(expected_price >= selling_price)',
-         'The expected price must be greater than the selling price'),
+        ('name_description_check', 'CHECK(name != description)', 'The name of the property should not be the description'),
+        ('price_check', 'CHECK(expected_price >= selling_price)', 'The expected price must be greater than the selling price'),
+        ('check_expected_price', 'CHECK(expected_price > 0)', 'The expected price must be strictly positive.'),
+        ('check_selling_price', 'CHECK(selling_price >= 0)', 'The selling price must be positive.'),
     ]
 
     @api.depends('living_area', 'garden_area')
@@ -81,3 +80,11 @@ class Property(models.Model):
             if property.state == 'sold':
                 raise UserError('This property is already sold. Can not be cancelled.')
             property.state = 'canceled'
+
+    @api.constrains('selling_price', 'expected_price')
+    def _check_selling_price(self):
+        for record in self:
+            if not float_is_zero(record.selling_price, precision_rounding=0.01):
+                min_price = record.expected_price * 0.9
+                if float_compare(record.selling_price, min_price, precision_rounding=0.01) < 0:
+                    raise ValidationError("The selling price cannot be lower than 90% of the expected price.")
