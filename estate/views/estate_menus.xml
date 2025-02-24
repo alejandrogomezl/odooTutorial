@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
+    <!-- Menú principal -->
     <menuitem id="estate_menu_root"
               name="Real Estate"
               sequence="1"/>
 
+    <!-- Submenú: Properties -->
     <menuitem id="estate_menu_property"
               name="Properties"
               parent="estate_menu_root"
@@ -15,14 +17,21 @@
               action="estate_property_action"
               sequence="3"/>
 
+    <!-- Submenú: Configuration -->
     <menuitem id="estate_menu_configuration"
               name="Configuration"
               parent="estate_menu_root"
-              sequence="2"/>
+              sequence="10"/>  <!-- Ajustado para evitar duplicados -->
 
     <menuitem id="estate_property_type_menu"
               name="Property Types"
               parent="estate_menu_configuration"
               action="estate_property_type_action"
-              sequence="3"/>
+              sequence="11"/>
+
+    <menuitem id="estate_property_tag_menu"
+              name="Property Tags"
+              parent="estate_menu_configuration"
+              action="estate_property_tag_action"
+              sequence="12"/>
 </odoo>
