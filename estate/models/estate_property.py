@@ -35,6 +35,7 @@ class Property(models.Model):
     ], 'Status', default='new')
     salesperson_id = fields.Many2one('res.users', 'Sales Person', default=lambda self: self.env.user)
     buyer_id = fields.Many2one('res.partner', 'Buyer')
+    property_type_id = fields.Many2one('estate.property.type', 'Property Type')
 
     _sql_constraints = [
         ('name_description_check',

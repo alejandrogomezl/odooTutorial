@@ -14,4 +14,15 @@
               parent="estate_menu_property"
               action="estate_property_action"
               sequence="3"/>
+
+    <menuitem id="estate_menu_configuration"
+              name="Configuration"
+              parent="estate_menu_root"
+              sequence="2"/>
+
+    <menuitem id="estate_property_type_menu"
+              name="Property Types"
+              parent="estate_menu_configuration"
+              action="estate_property_type_action"
+              sequence="3"/>
 </odoo>
