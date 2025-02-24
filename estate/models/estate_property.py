@@ -1,4 +1,4 @@
-from odoo import fields, models
+from odoo import fields, models, api
 from datetime import date, timedelta
 
 class Property(models.Model):
@@ -16,7 +16,7 @@ class Property(models.Model):
     last_seen = fields.Datetime("Last Seen", default=fields.Datetime.now)
     living_area = fields.Integer('Living Area')
     garden_area = fields.Integer('Garden Area')
-    total_area = fields.Integer('Total Area', compute='compute_total_area')
+    total_area = fields.Integer('Total Area', compute='_compute_total_area', store=True)
     facades = fields.Integer('Facades')
     garage = fields.Boolean('Garage')
     garden = fields.Boolean('Garden')
@@ -39,6 +39,7 @@ class Property(models.Model):
     property_type_id = fields.Many2one('estate.property.type', 'Property Type')
     tag_ids = fields.Many2many('estate.property.tag', string='Tags')
     offer_ids = fields.One2many('estate.property.offer', 'property_id', 'Offers')
+    best_price = fields.Float(string="Best Offer", compute="_compute_best_price", store=True)
 
     _sql_constraints = [
         ('name_description_check',
@@ -49,6 +50,12 @@ class Property(models.Model):
          'The expected price must be greater than the selling price'),
     ]
 
-    def compute_total_area(self):
+    @api.depends('living_area', 'garden_area')
+    def _compute_total_area(self):
         for property in self:
             property.total_area = property.living_area + property.garden_area
+
+    @api.depends('offer_ids.price')
+    def _compute_best_price(self):
+        for property in self:
+            property.best_price = property.offer_ids and max(property.offer_ids.mapped('price'), default=0)
