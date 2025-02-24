@@ -33,6 +33,8 @@ class Property(models.Model):
         ('sold', 'Sold'),
         ('canceled', 'Canceled')
     ], 'Status', default='new')
+    salesperson_id = fields.Many2one('res.users', 'Sales Person', default=lambda self: self.env.user)
+    buyer_id = fields.Many2one('res.partner', 'Buyer')
 
     _sql_constraints = [
         ('name_description_check',
