@@ -46,6 +46,7 @@
                                     <field name="garage"/>
                                     <field name="garden"/>
                                     <field name="garden_area"/>
+                                    <field name="total_area"/>
                                     <field name="garden_orientation"/>
                                 </group>
                             </page>

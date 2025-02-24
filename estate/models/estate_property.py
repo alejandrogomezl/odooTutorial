@@ -15,10 +15,11 @@ class Property(models.Model):
     bedrooms = fields.Integer('Bedrooms', default=2)
     last_seen = fields.Datetime("Last Seen", default=fields.Datetime.now)
     living_area = fields.Integer('Living Area')
+    garden_area = fields.Integer('Garden Area')
+    total_area = fields.Integer('Total Area', compute='compute_total_area')
     facades = fields.Integer('Facades')
     garage = fields.Boolean('Garage')
     garden = fields.Boolean('Garden')
-    garden_area = fields.Integer('Garden Area')
     active = fields.Boolean('Active', default=True)
     garden_orientation = fields.Selection([
         ('north', 'North'),
@@ -47,3 +48,7 @@ class Property(models.Model):
          'CHECK(expected_price >= selling_price)',
          'The expected price must be greater than the selling price'),
     ]
+
+    def compute_total_area(self):
+        for property in self:
+            property.total_area = property.living_area + property.garden_area
