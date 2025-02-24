@@ -64,6 +64,8 @@
                                         <field name="status"/>
                                         <field name="validity"/>
                                         <field name="date_deadline"/>
+                                        <button name="action_accept" type="object" icon="fa-check" title="Accept" class="btn-primary"/>
+                                        <button name="action_refuse" type="object" icon="fa-times" title="Refuse" class="btn-secondary"/>
                                     </tree>
                                 </field>
                             </page>

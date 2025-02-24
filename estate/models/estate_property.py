@@ -80,4 +80,4 @@ class Property(models.Model):
         for property in self:
             if property.state == 'sold':
                 raise UserError('This property is already sold. Can not be cancelled.')
-            property.state = 'cancelled'
+            property.state = 'canceled'
