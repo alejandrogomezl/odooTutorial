@@ -49,6 +49,15 @@
                                     <field name="garden_orientation"/>
                                 </group>
                             </page>
+                            <page string="Offers">
+                                <field name="offer_ids">
+                                    <tree editable="bottom">
+                                        <field name="price"/>
+                                        <field name="partner_id"/>
+                                        <field name="status"/>
+                                    </tree>
+                                </field>
+                            </page>
                             <page string="Other Info">
                                 <group>
                                     <field name="salesperson_id"/>
