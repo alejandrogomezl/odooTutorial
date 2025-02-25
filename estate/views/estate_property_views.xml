@@ -29,7 +29,7 @@
                     </header>
                     <sheet>
                         <h1><field name="name"/></h1>
-                        <field name="tag_ids" widget="many2many_tags"/>
+                        <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
                         <group>
                             <group>
                                 <field name="state"/>
@@ -46,7 +46,7 @@
                             <page string="Description">
                                 <group>
                                     <field name="description"/>
-                                    <field name="property_type_id"/>
+                                    <field name="property_type_id" options="{'no_create': True, 'no_open': True}"/>
                                     <field name="bedrooms"/>
                                     <field name="living_area"/>
                                     <field name="facades"/>
